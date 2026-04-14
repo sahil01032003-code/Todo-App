@@ -19,7 +19,7 @@ jobs:
 
       - run: npm install -g eas-cli
 
-      - run: eas whoami
+      - run: eas build --platform android --non-interactive
         env:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
 
