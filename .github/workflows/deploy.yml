@@ -17,15 +17,16 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 18
+            cache: 'npm'
 
       - run: npm install --legacy-peer-deps
 
       - run: npm install -g eas-cli
 
-      - run: eas build --platform android --non-interactive
+      # Android
+      - run: eas build --platform android --non-interactive --profile production --wait
+      - run: eas submit --platform android --non-interactive --latest
 
-      - run: eas submit --platform android --non-interactive
-
-      - run: eas build --platform ios --non-interactive
-
-      - run: eas submit --platform ios --non-interactive
+      # iOS
+      - run: eas build --platform ios --non-interactive --profile production --wait
+      - run: eas submit --platform ios --non-interactive --latest
