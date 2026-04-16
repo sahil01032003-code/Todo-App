@@ -8,25 +8,33 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
 
-    env:
-      EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
-
     steps:
       - uses: actions/checkout@v3
 
       - uses: actions/setup-node@v3
         with:
-          node-version: 18
-            cache: 'npm'
+          node-version: '18'
+          cache: 'npm'
 
-      - run: npm install --legacy-peer-deps
+      - name: Install dependencies
+        run: npm install --legacy-peer-deps
 
-      - run: npm install -g eas-cli
+      - name: Setup Expo & EAS
+        uses: expo/expo-github-action@v8
+        with:
+          eas-version: latest
+          token: ${{ secrets.EXPO_TOKEN }}
 
       # Android
-      - run: eas build --platform android --non-interactive --profile production --wait
-      - run: eas submit --platform android --non-interactive --latest
+      - name: Build Android
+        run: eas build --platform android --non-interactive --profile production --wait
+
+      - name: Submit Android
+        run: eas submit --platform android --non-interactive --latest
 
       # iOS
-      - run: eas build --platform ios --non-interactive --profile production --wait
-      - run: eas submit --platform ios --non-interactive --latest
+      - name: Build iOS
+        run: eas build --platform ios --non-interactive --profile production --wait
+
+      - name: Submit iOS
+        run: eas submit --platform ios --non-interactive --latest
