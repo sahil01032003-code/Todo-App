@@ -20,7 +20,7 @@ jobs:
         run: npm install --legacy-peer-deps
 
       - name: Install EAS CLI
-        run: npm install -g eas-cli
+        run: npm install -g eas-cli@18.5.0
 
       - name: Verify EAS login
         run: eas whoami
